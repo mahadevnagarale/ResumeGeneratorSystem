@@ -26,7 +26,7 @@ Configure application.properties:   src/main/resources/application.properties an
 
 spring.datasource.url=jdbc:mysql://localhost:3306/resume_db?useSSL=false&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
 spring.datasource.username=root
-spring.datasource.password=mdev
+spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 spring.jpa.show-sql=true
