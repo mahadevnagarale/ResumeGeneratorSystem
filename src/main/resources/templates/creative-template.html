@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume - Creative</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            color: #333;
+            background-color: #f1f1f1;
+            padding: 50px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .content h2 {
+            font-size: 22px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1 th:text="${resume.name}">Name</h1>
+    <p th:text="${resume.email}">Email</p>
+</div>
+
+<div class="content">
+    <h2>Projects</h2>
+    <ul>
+        <li th:each="project : ${resume.projects}">
+            <p th:text="${project.name}">Project Name</p>
+            <p th:text="${project.description}">Description</p>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

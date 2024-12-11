@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SecurityConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.resumeGenerationSystem.config</a>
+</div>
+
+<h1>Coverage Summary for Class: SecurityConfig (com.example.resumeGenerationSystem.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SecurityConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    77.8%
+  </span>
+  <span class="absValue">
+    (7/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.9%
+  </span>
+  <span class="absValue">
+    (17/23)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SecurityConfig$$SpringCGLIB$$0</td>
+  </tr>
+  <tr>
+    <td class="name">SecurityConfig$$SpringCGLIB$$FastClass$$0</td>
+  </tr>
+  <tr>
+    <td class="name">SecurityConfig$$SpringCGLIB$$FastClass$$1</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    77.8%
+  </span>
+  <span class="absValue">
+    (7/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.9%
+  </span>
+  <span class="absValue">
+    (17/23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.resumeGenerationSystem.config;
+&nbsp;
+&nbsp;import jakarta.servlet.http.HttpServletResponse;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;import org.springframework.context.annotation.Configuration;
+&nbsp;import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+&nbsp;import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.security.web.SecurityFilterChain;
+&nbsp;
+&nbsp;@Configuration
+&nbsp;@EnableWebSecurity
+<b class="fc">&nbsp;public class SecurityConfig {</b>
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+<b class="fc">&nbsp;        http</b>
+<b class="fc">&nbsp;                .csrf(csrf -&gt; csrf.disable()) // Disable CSRF for APIs</b>
+<b class="fc">&nbsp;                .authorizeHttpRequests(auth -&gt; auth</b>
+<b class="fc">&nbsp;                        .requestMatchers(&quot;/auth/**&quot;, &quot;/login&quot;, &quot;/logout&quot;, &quot;/api/resumes/**&quot;, &quot;/error&quot;,&quot;/api/users&quot;).permitAll() // Public endpoints</b>
+<b class="fc">&nbsp;                        .anyRequest().authenticated() // Protect other endpoints</b>
+&nbsp;                )
+<b class="fc">&nbsp;                .exceptionHandling(exception -&gt; exception</b>
+&nbsp;                        // Return 403 FORBIDDEN for unauthorized access
+<b class="fc">&nbsp;                        .authenticationEntryPoint((request, response, authException) -&gt; {</b>
+<b class="nc">&nbsp;                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);</b>
+<b class="nc">&nbsp;                            response.setContentType(&quot;application/json&quot;);</b>
+<b class="nc">&nbsp;                            response.getWriter().write(&quot;{\&quot;error\&quot;: \&quot;Access denied\&quot;}&quot;);</b>
+&nbsp;                        })
+<b class="fc">&nbsp;                        .accessDeniedHandler((request, response, accessDeniedException) -&gt; {</b>
+<b class="nc">&nbsp;                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);</b>
+<b class="nc">&nbsp;                            response.setContentType(&quot;application/json&quot;);</b>
+<b class="nc">&nbsp;                            response.getWriter().write(&quot;{\&quot;error\&quot;: \&quot;Access denied\&quot;}&quot;);</b>
+&nbsp;                        })
+&nbsp;                )
+<b class="fc">&nbsp;                .formLogin(form -&gt; form</b>
+<b class="fc">&nbsp;                        .loginPage(&quot;/login&quot;).permitAll()</b>
+&nbsp;                )
+<b class="fc">&nbsp;                .logout(logout -&gt; logout</b>
+<b class="fc">&nbsp;                        .logoutUrl(&quot;/logout&quot;)</b>
+<b class="fc">&nbsp;                        .logoutSuccessUrl(&quot;/login?logout&quot;)</b>
+<b class="fc">&nbsp;                        .permitAll()</b>
+&nbsp;                );
+&nbsp;
+<b class="fc">&nbsp;        return http.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    public PasswordEncoder passwordEncoder() {
+<b class="fc">&nbsp;        return new BCryptPasswordEncoder();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-11 20:42</div>
+</div>
+</body>
+</html>

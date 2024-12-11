@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ResumeService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.resumeGenerationSystem.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ResumeService (com.example.resumeGenerationSystem.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResumeService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (8/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.2%
+  </span>
+  <span class="absValue">
+    (38/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.resumeGenerationSystem.service;
+&nbsp;
+&nbsp;import com.example.resumeGenerationSystem.entity.Education;
+&nbsp;import com.example.resumeGenerationSystem.entity.Resume;
+&nbsp;import com.example.resumeGenerationSystem.entity.Skill;
+&nbsp;import com.example.resumeGenerationSystem.entity.WorkExperience;
+&nbsp;import com.example.resumeGenerationSystem.exception.ResourceNotFoundException;
+&nbsp;import com.example.resumeGenerationSystem.repository.ResumeRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ResumeService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ResumeRepository resumeRepository;
+&nbsp;
+&nbsp;    public Resume createResume(Resume resume) {
+&nbsp;        // Set the resume reference for each skill, experience, and education
+<b class="fc">&nbsp;        if (resume.getSkills() != null) {</b>
+<b class="fc">&nbsp;            for (Skill skill : resume.getSkills()) {</b>
+<b class="fc">&nbsp;                skill.setResume(resume);  // Set the parent Resume</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (resume.getExperiences() != null) {</b>
+<b class="fc">&nbsp;            for (WorkExperience experience : resume.getExperiences()) {</b>
+<b class="fc">&nbsp;                experience.setResume(resume);  // Set the parent Resume</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (resume.getEducation() != null) {</b>
+<b class="fc">&nbsp;            for (Education edu : resume.getEducation()) {</b>
+<b class="fc">&nbsp;                edu.setResume(resume);  // Set the parent Resume</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Save the entire Resume with its related entities (skills, experiences, education)
+<b class="fc">&nbsp;        return resumeRepository.save(resume);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Resume updateResume(Long id, Resume resume) {
+&nbsp;        // Fetch the existing resume
+<b class="fc">&nbsp;        Resume existingResume = resumeRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Resume not found&quot;));</b>
+&nbsp;
+&nbsp;        // Update the main resume fields
+<b class="fc">&nbsp;        existingResume.setFullName(resume.getFullName());</b>
+<b class="fc">&nbsp;        existingResume.setEmail(resume.getEmail());</b>
+<b class="fc">&nbsp;        existingResume.setPhoneNumber(resume.getPhoneNumber());</b>
+<b class="fc">&nbsp;        existingResume.setSummary(resume.getSummary());</b>
+&nbsp;
+&nbsp;        // Update related entities (Skills, WorkExperience, Education)
+<b class="fc">&nbsp;        existingResume.setSkills(updateSkills(existingResume, resume.getSkills()));</b>
+<b class="fc">&nbsp;        existingResume.setExperiences(updateExperiences(existingResume, resume.getExperiences()));</b>
+<b class="fc">&nbsp;        existingResume.setEducation(updateEducation(existingResume, resume.getEducation()));</b>
+&nbsp;
+&nbsp;        // Save and return the updated resume
+<b class="fc">&nbsp;        return resumeRepository.save(existingResume);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;Skill&gt; updateSkills(Resume existingResume, List&lt;Skill&gt; newSkills) {
+&nbsp;        // Clear existing skills and update
+<b class="fc">&nbsp;        existingResume.getSkills().clear();</b>
+<b class="fc">&nbsp;        for (Skill skill : newSkills) {</b>
+<b class="nc">&nbsp;            skill.setResume(existingResume);  // Set the Resume reference</b>
+<b class="nc">&nbsp;            existingResume.getSkills().add(skill);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return existingResume.getSkills();  // Return the updated list</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;WorkExperience&gt; updateExperiences(Resume existingResume, List&lt;WorkExperience&gt; newExperiences) {
+&nbsp;        // Clear existing experiences and update
+<b class="fc">&nbsp;        existingResume.getExperiences().clear();</b>
+<b class="fc">&nbsp;        for (WorkExperience experience : newExperiences) {</b>
+<b class="nc">&nbsp;            experience.setResume(existingResume);  // Set the Resume reference</b>
+<b class="nc">&nbsp;            existingResume.getExperiences().add(experience);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return existingResume.getExperiences();  // Return the updated list</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;Education&gt; updateEducation(Resume existingResume, List&lt;Education&gt; newEducation) {
+&nbsp;        // Clear existing education and update
+<b class="fc">&nbsp;        existingResume.getEducation().clear();</b>
+<b class="fc">&nbsp;        for (Education edu : newEducation) {</b>
+<b class="nc">&nbsp;            edu.setResume(existingResume);  // Set the Resume reference</b>
+<b class="nc">&nbsp;            existingResume.getEducation().add(edu);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return existingResume.getEducation();  // Return the updated list</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Resume getResumeById(Long id) {
+<b class="fc">&nbsp;        return resumeRepository.findById(id).orElse(null); // Or handle this more gracefully</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean deleteResume(Long id) {
+<b class="fc">&nbsp;        if (resumeRepository.existsById(id)) {</b>
+<b class="fc">&nbsp;            resumeRepository.deleteById(id);</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Resume&gt; getAllResumes() {
+<b class="nc">&nbsp;        return resumeRepository.findAll();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-11 20:42</div>
+</div>
+</body>
+</html>

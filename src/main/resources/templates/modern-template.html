@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume - Modern</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            color: #333;
+            background-color: #ffffff;
+            padding: 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .content {
+            margin-top: 30px;
+        }
+        .content h2 {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1 th:text="${resume.name}">Name</h1>
+    <p th:text="${resume.email}">Email</p>
+</div>
+
+<div class="content">
+    <h2>Skills</h2>
+    <ul>
+        <li th:each="skill : ${resume.skills}">
+            <p th:text="${skill.name}">Skill Name</p>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

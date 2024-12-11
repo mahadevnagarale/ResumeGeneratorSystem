@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resume Information</title>
+</head>
+<body>
+<h1>Resume Information</h1>
+
+<!-- Check if resume is not null -->
+<div th:if="${resume != null}">
+    <p><strong>Name:</strong> <span th:text="${resume.fullName}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${resume.email}"></span></p>
+    <p><strong>Phone Number:</strong> <span th:text="${resume.phoneNumber}"></span></p>
+    <p><strong>Summary:</strong> <span th:text="${resume.summary}"></span></p>
+
+    <!-- Display Skills -->
+    <h3>Skills:</h3>
+    <ul>
+        <li th:each="skill : ${resume.skills}">
+            <span th:text="${skill.skillName}"></span> <!-- Updated to use 'skillName' -->
+        </li>
+    </ul>
+
+    <!-- Display Work Experience -->
+    <h3>Work Experience:</h3>
+    <div th:each="experience : ${resume.experiences}">
+        <p><strong>Job Title:</strong> <span th:text="${experience.jobTitle}"></span></p>
+        <p><strong>Company:</strong> <span th:text="${experience.company}"></span></p>
+        <p><strong>Duration:</strong> <span th:text="${experience.duration}"></span></p>
+        <hr/>
+    </div>
+
+    <!-- Display Education -->
+    <h3>Education:</h3>
+    <div th:each="edu : ${resume.education}">
+        <p><strong>Degree:</strong> <span th:text="${edu.degree}"></span></p>
+        <p><strong>Institution:</strong> <span th:text="${edu.institution}"></span></p>
+        <p><strong>Graduation Year:</strong> <span th:text="${edu.graduationYear}"></span></p> <!-- Updated to use 'graduationYear' -->
+        <hr/>
+    </div>
+</div>
+
+<!-- Show message if resume is null -->
+<div th:if="${resume == null}">
+    <p>No resume found!</p>
+</div>
+</body>
+</html>

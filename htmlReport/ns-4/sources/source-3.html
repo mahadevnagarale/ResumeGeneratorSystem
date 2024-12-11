@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Resume</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.resumeGenerationSystem.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: Resume (com.example.resumeGenerationSystem.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Resume</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80.6%
+  </span>
+  <span class="absValue">
+    (25/31)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Resume$HibernateInstantiator$IlOFO3qt</td>
+  </tr>
+  <tr>
+    <td class="name">Resume$HibernateInstantiator$rdClkM48</td>
+  </tr>
+  <tr>
+    <td class="name">Resume$HibernateInstantiator$vx9C5D9Y</td>
+  </tr>
+  <tr>
+    <td class="name">Resume$HibernateProxy$i1hkzz44</td>
+  </tr>
+  <tr>
+    <td class="name">Resume$HibernateProxy$IA37MsY0</td>
+  </tr>
+  <tr>
+    <td class="name">Resume$HibernateProxy$ReTXLYaK</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80.6%
+  </span>
+  <span class="absValue">
+    (25/31)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.resumeGenerationSystem.entity;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonManagedReference;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Entity
+&nbsp;public class Resume {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private Long id;
+&nbsp;
+&nbsp;    private String fullName;
+&nbsp;    private String email;
+&nbsp;    private String phoneNumber;
+&nbsp;    private String summary;
+&nbsp;
+&nbsp;    // One-to-many relationship with Skill, WorkExperience, Education
+<b class="fc">&nbsp;    @OneToMany(mappedBy = &quot;resume&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</b>
+&nbsp;    @JsonManagedReference
+&nbsp;    private List&lt;Skill&gt; skills = new ArrayList&lt;&gt;();
+&nbsp;
+<b class="fc">&nbsp;    @OneToMany(mappedBy = &quot;resume&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</b>
+&nbsp;    @JsonManagedReference
+&nbsp;    private List&lt;WorkExperience&gt; experiences = new ArrayList&lt;&gt;();
+&nbsp;
+<b class="fc">&nbsp;    @OneToMany(mappedBy = &quot;resume&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</b>
+&nbsp;    @JsonManagedReference
+&nbsp;    private List&lt;Education&gt; education = new ArrayList&lt;&gt;();
+&nbsp;
+&nbsp;    // Default constructor
+<b class="fc">&nbsp;    public Resume() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Constructor for initializing with values
+<b class="fc">&nbsp;    public Resume(String fullName, String email, String phoneNumber, String summary) {</b>
+<b class="fc">&nbsp;        this.fullName = fullName;</b>
+<b class="fc">&nbsp;        this.email = email;</b>
+<b class="fc">&nbsp;        this.phoneNumber = phoneNumber;</b>
+<b class="fc">&nbsp;        this.summary = summary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Constructor with ID (used for database entity updates)
+<b class="nc">&nbsp;    public Resume(Long id, String fullName, String email, String phoneNumber, String summary) {</b>
+<b class="nc">&nbsp;        this.id = id;</b>
+<b class="nc">&nbsp;        this.fullName = fullName;</b>
+<b class="nc">&nbsp;        this.email = email;</b>
+<b class="nc">&nbsp;        this.phoneNumber = phoneNumber;</b>
+<b class="nc">&nbsp;        this.summary = summary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Getters and Setters
+&nbsp;
+&nbsp;    public Long getId() {
+<b class="fc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId(Long id) {
+<b class="fc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getFullName() {
+<b class="fc">&nbsp;        return fullName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFullName(String fullName) {
+<b class="fc">&nbsp;        this.fullName = fullName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEmail() {
+<b class="fc">&nbsp;        return email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEmail(String email) {
+<b class="fc">&nbsp;        this.email = email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getPhoneNumber() {
+<b class="fc">&nbsp;        return phoneNumber;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPhoneNumber(String phoneNumber) {
+<b class="fc">&nbsp;        this.phoneNumber = phoneNumber;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getSummary() {
+<b class="fc">&nbsp;        return summary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSummary(String summary) {
+<b class="fc">&nbsp;        this.summary = summary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Skill&gt; getSkills() {
+<b class="fc">&nbsp;        return skills;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSkills(List&lt;Skill&gt; skills) {
+<b class="fc">&nbsp;        this.skills = skills;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;WorkExperience&gt; getExperiences() {
+<b class="fc">&nbsp;        return experiences;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setExperiences(List&lt;WorkExperience&gt; experiences) {
+<b class="fc">&nbsp;        this.experiences = experiences;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Education&gt; getEducation() {
+<b class="fc">&nbsp;        return education;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEducation(List&lt;Education&gt; education) {
+<b class="fc">&nbsp;        this.education = education;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-11 20:42</div>
+</div>
+</body>
+</html>
